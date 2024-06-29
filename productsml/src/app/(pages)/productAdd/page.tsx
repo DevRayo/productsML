@@ -1,5 +1,7 @@
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { addProduct, updateProduct } from "@/app/services/products";
+import { Product } from "@/app/types/product";
 
 export default function ProductsAdd() {
   const validationSchema = Yup.object().shape({
@@ -15,68 +17,15 @@ export default function ProductsAdd() {
     image: Yup.string(),
   });
 
-  const handleSubmit = async (values: {
-    name: string;
-    description: string;
-    price: string;
-    category: string;
-  }) => {
-    console.log(values);
+  const handleSubmit = async (product: Product) => {
     try {
-      const response = await fetch("https://fakestoreapi.com/products", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: values.name,
-          price: 200,
-          description: values.description,
-          image: "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg",
-          category: "electronic",
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to save data");
+      if (product.id) {
+        const newProduct = await updateProduct(product.id.toString(), product);
+        console.log(newProduct);
+      } else {
+        const newProduct = await addProduct(product);
+        console.log(newProduct);
       }
-      const data = await response.json();
-      console.log("Response:", data);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
-  const handleSubmitUpdate = async (values: {
-    id: string;
-    name: string;
-    description: string;
-    price: string;
-    category: string;
-  }) => {
-    console.log(values);
-    try {
-      const response = await fetch(
-        `https://fakestoreapi.com/products/${values.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            title: values.name,
-            price: 200,
-            description: values.description,
-            image: "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg",
-            category: "electronic",
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to save data");
-      }
-      const data = await response.json();
     } catch (error) {
       console.error("Error:", error);
     }
@@ -91,10 +40,10 @@ export default function ProductsAdd() {
           </h2>
           <Formik
             initialValues={{
-              name: "",
-              description: "",
-              price: "",
               category: "",
+              image: "",
+              price: 0,
+              title: "",
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
