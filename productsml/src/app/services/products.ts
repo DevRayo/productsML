@@ -95,3 +95,11 @@ export const getProduct = async (product: string) => {
     throw error;
   }
 };
+
+export const postLocalProducts = async (data: Product) => {
+  localStorage.setItem("productsSelectedLocalStorage", JSON.stringify(data));
+};
+
+export const getLocalProducts = async () => {
+  return localStorage.getItem("productsSelectedLocalStorage");
+};

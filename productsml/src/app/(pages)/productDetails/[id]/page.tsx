@@ -1,6 +1,6 @@
 "use client";
 import Navbar from "@/app/components/navbar";
-import { getProduct } from "@/app/services/products";
+import { getProduct, postLocalProducts } from "@/app/services/products";
 import { Product } from "@/app/types/product";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
@@ -8,15 +8,28 @@ import { useAppContext } from "@/context";
 
 export default function ProductDetails() {
   const [product, setProduct] = useState<Product | undefined>(undefined);
-  const { productSelected, setProductSelected } = useAppContext();
+  const { setProductSelected } = useAppContext();
   const router = useParams();
   const routerNavigation = useRouter();
 
   useEffect(() => {
+    const storedProduct = localStorage.getItem("productsSelectedLocalStorage");
+    if (storedProduct) {
+      getLocalProduct(storedProduct);
+    }
     if (router.id) {
       fetchProducts(router.id.toString());
     }
   }, []);
+
+  const getLocalProduct = (storedProduct: string) => {
+    if (storedProduct) {
+      const stored = JSON.parse(storedProduct);
+      if (stored.id.toString() === router.id.toString()) {
+        setProduct(JSON.parse(storedProduct));
+      }
+    }
+  };
 
   const handlerlistProduct = () => {
     routerNavigation.push(`/productList`);
@@ -27,6 +40,7 @@ export default function ProductDetails() {
       const data: Product = await getProduct(option);
       setProduct(data);
       setProductSelected(data);
+      postLocalProducts(data);
     } catch (error) {
       console.error("Error fetching product:", error);
     }

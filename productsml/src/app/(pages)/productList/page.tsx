@@ -14,12 +14,20 @@ export default function ProductList() {
   const { category = [], isLoadingCategory, isErrorCategory } = useCategory();
   const [selectedOption, setSelectedOption] = useState("All");
   const [product, setProducts] = useState([]);
-  const { productSelected, setProductSelected } = useAppContext();
+  const { setProductSelected } = useAppContext();
 
   useEffect(() => {
+    localProducts();
     fetchProducts(selectedOption);
     setProductSelected(null);
   }, [selectedOption]);
+
+  const localProducts = async () => {
+    const storedProduct = localStorage.getItem("productsLocalStorage");
+    if (storedProduct) {
+      setProducts(JSON.parse(storedProduct));
+    }
+  };
 
   const fetchProducts = async (option: any) => {
     let newProducts;
@@ -28,6 +36,7 @@ export default function ProductList() {
     } else {
       newProducts = await useCategorySelected(option);
     }
+    localStorage.setItem("productsLocalStorage", JSON.stringify(newProducts));
     setProducts(newProducts);
   };
 
@@ -44,7 +53,7 @@ export default function ProductList() {
 
   return (
     <main>
-      <Navbar typeSection='productList'></Navbar>
+      <Navbar typeSection="productList"></Navbar>
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-6 pt-5 pl-12">
         <h1 className={`${styles.categoryTitle} mt-10`}>New products</h1>
         <div

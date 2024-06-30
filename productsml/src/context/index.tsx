@@ -1,6 +1,12 @@
 "use client";
 import { Product } from "@/app/types/product";
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 
 interface AppContextType {
   productSelected: Product | null;
@@ -11,7 +17,6 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppWrapper({ children }: { children: ReactNode }) {
   const [productSelected, setProductSelected] = useState<Product | null>(null);
-
   return (
     <AppContext.Provider value={{ productSelected, setProductSelected }}>
       {children}
