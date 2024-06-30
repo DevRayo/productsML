@@ -75,3 +75,23 @@ export const updateProduct = async (type: string, product: Product) => {
     throw error;
   }
 };
+
+export const getProduct = async (product: string) => {
+  try {
+    const response = await fetch(
+      `https://fakestoreapi.com/products/${product}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (!response.ok) {
+      throw new Error("Error al obtener la información");
+    }
+    return await response.json();
+  } catch (error) {
+    throw error;
+  }
+};

@@ -1,8 +1,18 @@
+import { useEffect, useState } from "react";
 import ProductsAdd from "../(pages)/productAdd/page";
 import styles from "../styles/Navbar.module.scss";
 import ModalRegister from "./modal";
 
-export default function Navbar() {
+export default function Navbar({ typeSection }: any) {
+  const [typeOptions, _setTypeOptions] = useState(typeSection);
+
+  useEffect(() => {
+    
+    console.log(typeOptions);
+   
+  }, []);
+
+
   return (
     <>
       <div className={`${styles.navbar_structure} navbar bg-base-100`}>
@@ -27,7 +37,9 @@ export default function Navbar() {
                     d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                   />
                 </svg>
-                Add new product
+                {typeOptions === "productList"
+                  ? "Add new product"
+                  : "Edit product"}
               </label>
             </li>
           </ul>

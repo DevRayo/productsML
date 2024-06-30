@@ -16,10 +16,6 @@ const config: Config = {
       },
     },
   },
-
-  //   daisyui: {
-  //     themes: [],
-  //  },
   plugins: [daisyui],
   daisyui: {
     themes: [],

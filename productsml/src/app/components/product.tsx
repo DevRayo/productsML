@@ -3,12 +3,11 @@ import { useRouter } from "next/navigation";
 import styles from "../styles/Product.module.scss";
 import Image from "next/image";
 
-export default function Product({ information }: any) {
+export default function Product({ product }: any) {
   const router = useRouter();
-  const openProduct = (e: any) => {
-    router.push("/productDetails");
+  const openProduct = () => {
+    router.push(`/productDetails/${product.id}`);
   };
-
   return (
     <>
       <div className=" p-4">
@@ -17,7 +16,7 @@ export default function Product({ information }: any) {
         >
           <figure className={`${styles.figureCard}`}>
             <Image
-              src={information.image}
+              src={product.image}
               alt="example"
               width={800}
               height={600}
@@ -26,12 +25,12 @@ export default function Product({ information }: any) {
           </figure>
           <div className={`${styles.cardBody} card-body`}>
             <div>
-              <h2 className={styles.product_text}>{information.title}</h2>
+              <h2 className={styles.product_text}>{product.title}</h2>
             </div>
-            <p className={`${styles.cardPrice}`}>Price: ${information.price}</p>
+            <p className={`${styles.cardPrice}`}>Price: ${product.price}</p>
             <p className={`${styles.cardCategory}`}>
               {" "}
-              Category: {information.category}
+              Category: {product.category}
             </p>
             <div className="card-actions justify-end">
               <button

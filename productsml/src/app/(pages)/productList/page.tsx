@@ -8,14 +8,17 @@ import {
 } from "@/app/services/products";
 import styles from "../../styles/ProductList.module.scss";
 import { useEffect, useState } from "react";
+import { useAppContext } from "@/context";
 
 export default function ProductList() {
   const { category = [], isLoadingCategory, isErrorCategory } = useCategory();
   const [selectedOption, setSelectedOption] = useState("All");
   const [product, setProducts] = useState([]);
+  const { productSelected, setProductSelected } = useAppContext();
 
   useEffect(() => {
     fetchProducts(selectedOption);
+    setProductSelected(null);
   }, [selectedOption]);
 
   const fetchProducts = async (option: any) => {
@@ -41,7 +44,7 @@ export default function ProductList() {
 
   return (
     <main>
-      <Navbar></Navbar>
+      <Navbar typeSection='productList'></Navbar>
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-6 pt-5 pl-12">
         <h1 className={`${styles.categoryTitle} mt-10`}>New products</h1>
         <div
@@ -67,7 +70,7 @@ export default function ProductList() {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-10">
         {product.map((e: any) => (
-          <Product key={e.id} information={e}></Product>
+          <Product key={e.id} product={e}></Product>
         ))}
       </div>
     </main>

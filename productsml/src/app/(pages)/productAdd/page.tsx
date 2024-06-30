@@ -2,10 +2,13 @@ import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { addProduct, updateProduct } from "@/app/services/products";
 import { Product } from "@/app/types/product";
+import { useAppContext } from "@/context";
 
 export default function ProductsAdd() {
+  const { productSelected, setProductSelected } = useAppContext();
+
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("El valor es requerido"),
+    title: Yup.string().required("El valor es requerido"),
     description: Yup.string().required("El valor es requerido"),
     price: Yup.number()
       .typeError("Ingresa un valor válido")
@@ -19,8 +22,11 @@ export default function ProductsAdd() {
 
   const handleSubmit = async (product: Product) => {
     try {
-      if (product.id) {
-        const newProduct = await updateProduct(product.id.toString(), product);
+      if (productSelected) {
+        const newProduct = await updateProduct(
+          productSelected.id ? productSelected.id.toString() : "",
+          product
+        );
         console.log(newProduct);
       } else {
         const newProduct = await addProduct(product);
@@ -36,15 +42,17 @@ export default function ProductsAdd() {
       <div className="flex justify-center ">
         <div className="max-w-md w-full p-8 rounded-lg shadow-lg">
           <h2 className="text-2xl font-semibold text-center mb-6">
-            Agregar Producto
+            {productSelected ? "Editar producto" : "Agregar Producto"}
           </h2>
           <Formik
             initialValues={{
-              category: "",
-              image: "",
-              price: 0,
-              title: "",
+              title: productSelected ? productSelected.title : "",
+              category: productSelected ? productSelected.category : "",
+              price: productSelected ? productSelected.price : 0,
+              image: productSelected ? productSelected.image : "",
+              description: productSelected ? productSelected.description : "",
             }}
+            enableReinitialize
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
@@ -56,13 +64,13 @@ export default function ProductsAdd() {
                   </label>
                   <Field
                     type="text"
-                    id="name"
-                    name="name"
+                    id="title"
+                    name="title"
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500"
                     placeholder="Ingresa nombre de producto"
                   />
                   <ErrorMessage
-                    name="name"
+                    name="title"
                     component="div"
                     className="error-message"
                   />
@@ -148,7 +156,9 @@ export default function ProductsAdd() {
                     Cancelar
                   </label>
                   <button className="btn" type="submit">
-                    Crear nuevo producto
+                    {productSelected
+                      ? "Editar producto"
+                      : "Crear nuevo producto"}
                   </button>
                 </div>
               </Form>
