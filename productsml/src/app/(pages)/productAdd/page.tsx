@@ -1,11 +1,16 @@
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { addProduct, updateProduct } from "@/app/services/products";
+import {
+  addProduct,
+  updateProduct,
+  useCategory,
+} from "@/app/services/products";
 import { Product } from "@/app/types/product";
 import { useAppContext } from "@/context";
 
 export default function ProductsAdd() {
-  const { productSelected, setProductSelected } = useAppContext();
+  const { productSelected } = useAppContext();
+  const { category = [], isLoadingCategory, isErrorCategory } = useCategory();
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("El valor es requerido"),
@@ -87,9 +92,9 @@ export default function ProductsAdd() {
                         name="category"
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500"
                       >
-                        <option value="red">Red</option>
-                        <option value="green">Green</option>
-                        <option value="blue">Blue</option>
+                        {category.map((e: any) => (
+                          <option key={e}>{e}</option>
+                        ))}
                       </Field>
                       <ErrorMessage
                         name="category"

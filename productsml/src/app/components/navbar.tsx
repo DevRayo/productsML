@@ -5,14 +5,6 @@ import ModalRegister from "./modal";
 
 export default function Navbar({ typeSection }: any) {
   const [typeOptions, _setTypeOptions] = useState(typeSection);
-
-  useEffect(() => {
-    
-    console.log(typeOptions);
-   
-  }, []);
-
-
   return (
     <>
       <div className={`${styles.navbar_structure} navbar bg-base-100`}>
