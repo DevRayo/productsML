@@ -18,10 +18,14 @@ export default function ProductList() {
   const { setProductSelected } = useAppContext();
 
   useEffect(() => {
+    fetchProducts(selectedOption);
+  }, [selectedOption]);
+
+  useEffect(() => {
     localProducts();
     fetchProducts(selectedOption);
     setProductSelected(null);
-  }, [selectedOption]);
+  }, []);
 
   const localProducts = async () => {
     const storedProduct = localStorage.getItem("productsLocalStorage");
@@ -42,16 +46,17 @@ export default function ProductList() {
   };
 
   const handleCategoryChange = async (event: any) => {
+    setProducts([]);
     let newProducts;
     setSelectedOption(event.target.value);
-    setTimeout(async () => {
+    try {
       if (event.target.value === "All") {
         newProducts = await useProduct();
       } else {
         newProducts = await useCategorySelected(event.target.value);
       }
       setProducts(newProducts);
-    });
+    } catch (error) {}
   };
 
   return (
@@ -80,11 +85,13 @@ export default function ProductList() {
           </label>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-10">
-        {product.map((e: any) => (
-          <Product key={e.id} product={e}></Product>
-        ))}
-      </div>
+      {product.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-10">
+          {product.map((e: any) => (
+            <Product key={e.id} product={e}></Product>
+          ))}
+        </div>
+      ) : null}
       {product.length === 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-10">
           {Array.apply(0, Array(12)).map(function (_x, i) {
