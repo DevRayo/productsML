@@ -54,12 +54,15 @@ export default function ProductDetails() {
       {product ? (
         <div className="hero bg-base-200 min-h-screen">
           <div className="hero-content flex-col lg:flex-row">
-            <Image
-              src={product.image}
-              alt="logo"
-              layout="fill"
-              className="max-w-sm rounded-lg shadow-2xl"
-            />
+            <div className="img_container">
+              <Image
+                src={product.image}
+                alt="logo"
+                sizes="100%"
+                fill
+                className="max-w-sm rounded-lg shadow-2xl img_load"
+              />
+            </div>
 
             <div>
               <h1 className="text-5xl font-bold tittle">{product?.title}</h1>

@@ -4,7 +4,7 @@ import { Product } from "../types/product";
 
 export const useCategory = () => {
   const { data, error } = useSWR(
-    `https://fakestoreapi.com/products/categories`,
+    `${process.env.NEXT_PUBLIC_API_URL}/products/categories`,
     fetcher
   );
   return {
@@ -16,7 +16,7 @@ export const useCategory = () => {
 
 export const useProduct = async () => {
   try {
-    const response = await fetch(`https://fakestoreapi.com/products`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`);
     if (!response.ok) {
       throw new Error("Error al obtener la información");
     }
@@ -29,7 +29,7 @@ export const useProduct = async () => {
 export const useCategorySelected = async (type: string) => {
   try {
     const response = await fetch(
-      `https://fakestoreapi.com/products/category/${type}`
+      `${process.env.NEXT_PUBLIC_API_URL}/products/category/${type}`
     );
     if (!response.ok) {
       throw new Error("Error al obtener la información");
@@ -42,7 +42,7 @@ export const useCategorySelected = async (type: string) => {
 
 export const addProduct = async (product: Product) => {
   try {
-    const response = await fetch("https://fakestoreapi.com/products", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -60,7 +60,7 @@ export const addProduct = async (product: Product) => {
 
 export const updateProduct = async (type: string, product: Product) => {
   try {
-    const response = await fetch(`https://fakestoreapi.com/products/${type}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${type}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -79,7 +79,7 @@ export const updateProduct = async (type: string, product: Product) => {
 export const getProduct = async (product: string) => {
   try {
     const response = await fetch(
-      `https://fakestoreapi.com/products/${product}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/products/${product}`,
       {
         method: "GET",
         headers: {

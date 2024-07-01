@@ -13,12 +13,15 @@ export default function Navbar({ typeSection }: any) {
     <>
       <div className={`${styles.navbar_structure} navbar bg-base-100`}>
         <div className="flex-1">
-          <Image
-            src="/images/logo_fake.png"
-            alt="logo"
-            layout="fill"
-            className="navbar_logo"
-          />
+          <div className="img_container">
+            <Image
+              src="/images/logo_fake.png"
+              alt="logo"
+              fill
+              sizes="100%"
+              className="navbar_logo img_load"
+            />
+          </div>
         </div>
         <div className="flex-none">
           <ul className="menu menu-horizontal px-1">

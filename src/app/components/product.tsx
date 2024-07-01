@@ -15,11 +15,15 @@ export default function Product({ product }: any) {
           className={`${styles.card_product} card bg-base-100 w-96 shadow-xl`}
         >
           <figure className={`${styles.figureCard}`}>
-            <Image
-              src={product.image}
-              alt="example"
-              layout="fill"
-            />
+            <div className="img_container">
+              <Image
+                src={product.image}
+                alt="example"
+                sizes="100%"
+                fill
+                className="img_load"
+              />
+            </div>
           </figure>
           <div className={`${styles.cardBody} card-body`}>
             <div>

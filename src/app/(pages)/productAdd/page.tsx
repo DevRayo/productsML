@@ -61,12 +61,16 @@ export default function ProductsAdd({ onData }: any) {
     <>
       <div className="flex justify-center ">
         <div className="max-w-md w-full p-8">
-          <Image
-            src="/images/logo_fake.png"
-            alt="logo"
-            className="logo"
-            layout="fill"
-          />
+          <div className="img_container">
+            <Image
+              src="/images/logo_fake.png"
+              alt="logo"
+              sizes="100%"
+              className="logo"
+              fill
+            />
+          </div>
+
           <h2 className="text-2xl font-semibold text-center mb-6">
             {productSelected ? "Edit product" : "Add product"}
           </h2>
@@ -105,12 +109,15 @@ export default function ProductsAdd({ onData }: any) {
                 <div className="mb-4">
                   <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium" htmlFor="category">
+                      <label
+                        className="block text-sm font-medium"
+                        htmlFor="category"
+                      >
                         Category
                       </label>
                       <Field
                         as="select"
-                        id ="category"
+                        id="category"
                         name="category"
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500"
                       >
@@ -126,7 +133,12 @@ export default function ProductsAdd({ onData }: any) {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium" htmlFor="price">Price</label>
+                      <label
+                        className="block text-sm font-medium"
+                        htmlFor="price"
+                      >
+                        Price
+                      </label>
                       <Field
                         type="text"
                         id="price"
@@ -160,7 +172,10 @@ export default function ProductsAdd({ onData }: any) {
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="block text-sm font-medium" htmlFor="description">
+                  <label
+                    className="block text-sm font-medium"
+                    htmlFor="description"
+                  >
                     Description
                   </label>
                   <Field
