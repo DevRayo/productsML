@@ -6,12 +6,13 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useAppContext } from "@/context";
 import Image from "next/image";
+import LoaderSpinner from "@/app/components/loaderSpinner";
 
 export default function ProductDetails() {
   const [product, setProduct] = useState<Product | undefined>(undefined);
-  const { setProductSelected } = useAppContext();
   const router = useParams();
   const routerNavigation = useRouter();
+  const { setProductSelected } = useAppContext();
 
   useEffect(() => {
     const storedProduct = localStorage.getItem("productsSelectedLocalStorage");
@@ -79,7 +80,7 @@ export default function ProductDetails() {
           </div>
         </div>
       ) : (
-        <></>
+        <LoaderSpinner></LoaderSpinner>
       )}
     </>
   );
