@@ -16,9 +16,7 @@ export default function Navbar({ typeSection }: any) {
           <Image
             src="/images/logo_fake.png"
             alt="logo"
-            width={500}
-            height={100}
-            layout="responsive"
+            layout="fill"
             className="navbar_logo"
           />
         </div>

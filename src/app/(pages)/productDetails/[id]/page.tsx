@@ -57,9 +57,7 @@ export default function ProductDetails() {
             <Image
               src={product.image}
               alt="logo"
-              width={500}
-              height={100}
-              layout="responsive"
+              layout="fill"
               className="max-w-sm rounded-lg shadow-2xl"
             />
 

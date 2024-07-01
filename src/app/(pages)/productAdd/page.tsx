@@ -15,15 +15,15 @@ export default function ProductsAdd({ onData }: any) {
   const { category = [] } = useCategory();
 
   const validationSchema = Yup.object().shape({
-    title: Yup.string().required("Value is required"),
-    description: Yup.string().required("Value is required"),
+    title: Yup.string().required("Title is required"),
+    description: Yup.string().required("Description is required"),
     price: Yup.number()
       .typeError("Add value valid")
-      .required("Value is required")
+      .required("Price is required")
       .max(100000)
       .typeError("Max value 100,000")
       .moreThan(0, "Min value $1.00"),
-    category: Yup.string().required("Value is required"),
+    category: Yup.string().required("Category is required"),
     image: Yup.string(),
   });
 
@@ -64,10 +64,8 @@ export default function ProductsAdd({ onData }: any) {
           <Image
             src="/images/logo_fake.png"
             alt="logo"
-            width={500}
-            height={100}
             className="logo"
-            layout="responsive"
+            layout="fill"
           />
           <h2 className="text-2xl font-semibold text-center mb-6">
             {productSelected ? "Edit product" : "Add product"}
@@ -87,7 +85,7 @@ export default function ProductsAdd({ onData }: any) {
             {({ errors, touched }) => (
               <Form>
                 <div className="mb-4">
-                  <label className="block text-sm font-medium">
+                  <label className="block text-sm font-medium" htmlFor="title">
                     Product name
                   </label>
                   <Field
@@ -107,11 +105,12 @@ export default function ProductsAdd({ onData }: any) {
                 <div className="mb-4">
                   <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium">
+                      <label className="block text-sm font-medium" htmlFor="category">
                         Category
                       </label>
                       <Field
                         as="select"
+                        id ="category"
                         name="category"
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500"
                       >
@@ -127,7 +126,7 @@ export default function ProductsAdd({ onData }: any) {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium">Price</label>
+                      <label className="block text-sm font-medium" htmlFor="price">Price</label>
                       <Field
                         type="text"
                         id="price"
@@ -144,7 +143,7 @@ export default function ProductsAdd({ onData }: any) {
                   </div>
                 </div>
                 <div className="mb-4">
-                  <label className="block text-sm font-medium">
+                  <label className="block text-sm font-medium" htmlFor="image">
                     Product image
                   </label>
                   <Field
@@ -161,7 +160,7 @@ export default function ProductsAdd({ onData }: any) {
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="block text-sm font-medium">
+                  <label className="block text-sm font-medium" htmlFor="description">
                     Description
                   </label>
                   <Field

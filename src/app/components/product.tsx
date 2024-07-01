@@ -18,9 +18,7 @@ export default function Product({ product }: any) {
             <Image
               src={product.image}
               alt="example"
-              width={800}
-              height={600}
-              layout="responsive"
+              layout="fill"
             />
           </figure>
           <div className={`${styles.cardBody} card-body`}>
