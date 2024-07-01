@@ -9,9 +9,10 @@ import {
 import styles from "../../styles/ProductList.module.scss";
 import { useEffect, useState } from "react";
 import { useAppContext } from "@/context";
+import Loader from "@/app/components/loader";
 
 export default function ProductList() {
-  const { category = [], isLoadingCategory, isErrorCategory } = useCategory();
+  const { category = [] } = useCategory();
   const [selectedOption, setSelectedOption] = useState("All");
   const [product, setProducts] = useState([]);
   const { setProductSelected } = useAppContext();
@@ -41,14 +42,16 @@ export default function ProductList() {
   };
 
   const handleCategoryChange = async (event: any) => {
-    setSelectedOption(event.target.value);
     let newProducts;
-    if (event.target.value === "All") {
-      newProducts = await useProduct();
-    } else {
-      newProducts = await useCategorySelected(event.target.value);
-    }
-    setProducts(newProducts);
+    setSelectedOption(event.target.value);
+    setTimeout(async () => {
+      if (event.target.value === "All") {
+        newProducts = await useProduct();
+      } else {
+        newProducts = await useCategorySelected(event.target.value);
+      }
+      setProducts(newProducts);
+    });
   };
 
   return (
@@ -82,6 +85,13 @@ export default function ProductList() {
           <Product key={e.id} product={e}></Product>
         ))}
       </div>
+      {product.length === 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-10">
+          {Array.apply(0, Array(12)).map(function (_x, i) {
+            return <Loader key={i}></Loader>;
+          })}
+        </div>
+      ) : null}
     </main>
   );
 }

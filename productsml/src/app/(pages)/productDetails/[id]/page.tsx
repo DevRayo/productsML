@@ -5,6 +5,7 @@ import { Product } from "@/app/types/product";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useAppContext } from "@/context";
+import Image from "next/image";
 
 export default function ProductDetails() {
   const [product, setProduct] = useState<Product | undefined>(undefined);
@@ -52,12 +53,17 @@ export default function ProductDetails() {
       {product ? (
         <div className="hero bg-base-200 min-h-screen">
           <div className="hero-content flex-col lg:flex-row">
-            <img
+            <Image
               src={product.image}
+              alt="logo"
+              width={500}
+              height={100}
+              layout="responsive"
               className="max-w-sm rounded-lg shadow-2xl"
             />
+
             <div>
-              <h1 className="text-5xl font-bold">{product?.title}</h1>
+              <h1 className="text-5xl font-bold tittle">{product?.title}</h1>
               <p className="py-6">Description: {product.description}</p>
               <p className="pt-2">Category: {product.category}</p>
               <p className="pt-2">Price: {product.price}</p>
@@ -73,7 +79,7 @@ export default function ProductDetails() {
           </div>
         </div>
       ) : (
-        <p>Loading...</p>
+        <></>
       )}
     </>
   );

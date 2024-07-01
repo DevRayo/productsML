@@ -2,8 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-$primary-modal-background: rgb(224 219 219 / 96%);
+$primary-modal-background: white;
+$primary-color-text: #2d3277;
 
 .modal-box {
   background-color: $primary-modal-background;
+}
+
+.navbar_logo {
+  color: transparent;
+  width: 118px !important;
+  padding-left: 43px !important;
+}
+
+.modal_buttons {
+  width: 100%;
+}
+
+.logo {
+  width: 70px !important;
+  margin: auto;
+  padding-bottom: 12px;
+}
+
+.title {
+  color: $primary-color-text;
 }

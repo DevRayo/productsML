@@ -7,47 +7,70 @@ import {
 } from "@/app/services/products";
 import { Product } from "@/app/types/product";
 import { useAppContext } from "@/context";
+import Image from "next/image";
+import Swal from "sweetalert2";
 
-export default function ProductsAdd() {
+export default function ProductsAdd({ onData }: any) {
   const { productSelected } = useAppContext();
-  const { category = [], isLoadingCategory, isErrorCategory } = useCategory();
+  const { category = [] } = useCategory();
 
   const validationSchema = Yup.object().shape({
-    title: Yup.string().required("El valor es requerido"),
-    description: Yup.string().required("El valor es requerido"),
+    title: Yup.string().required("Value is required"),
+    description: Yup.string().required("Value is required"),
     price: Yup.number()
-      .typeError("Ingresa un valor válido")
-      .required("El valor es requerido")
+      .typeError("Add value valid")
+      .required("Value is required")
       .max(100000)
-      .typeError("El valor maximo del producto es $100,000.00")
-      .moreThan(0, "El valor mínimo es de $1.00"),
-    category: Yup.string().required("El valor es requerido"),
+      .typeError("Max value 100,000")
+      .moreThan(0, "Min value $1.00"),
+    category: Yup.string().required("Value is required"),
     image: Yup.string(),
   });
+
+  const showAlert = () => {
+    Swal.fire({
+      title: "Success!",
+      text: "Product saved",
+      icon: "success",
+      confirmButtonText: "OK",
+    });
+  };
 
   const handleSubmit = async (product: Product) => {
     try {
       if (productSelected) {
-        const newProduct = await updateProduct(
+        await updateProduct(
           productSelected.id ? productSelected.id.toString() : "",
           product
         );
-        console.log(newProduct);
       } else {
-        const newProduct = await addProduct(product);
-        console.log(newProduct);
+        await addProduct(product);
       }
+      closeModal();
+      showAlert();
     } catch (error) {
-      console.error("Error:", error);
+      closeModal();
     }
+  };
+
+  const closeModal = async () => {
+    onData(false);
   };
 
   return (
     <>
       <div className="flex justify-center ">
-        <div className="max-w-md w-full p-8 rounded-lg shadow-lg">
+        <div className="max-w-md w-full p-8">
+          <Image
+            src="/images/logo_fake.png"
+            alt="logo"
+            width={500}
+            height={100}
+            className="logo"
+            layout="responsive"
+          />
           <h2 className="text-2xl font-semibold text-center mb-6">
-            {productSelected ? "Editar producto" : "Agregar Producto"}
+            {productSelected ? "Edit product" : "Add product"}
           </h2>
           <Formik
             initialValues={{
@@ -65,7 +88,7 @@ export default function ProductsAdd() {
               <Form>
                 <div className="mb-4">
                   <label className="block text-sm font-medium">
-                    Nombre de producto
+                    Product name
                   </label>
                   <Field
                     type="text"
@@ -85,7 +108,7 @@ export default function ProductsAdd() {
                   <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium">
-                        Categoría
+                        Category
                       </label>
                       <Field
                         as="select"
@@ -104,9 +127,7 @@ export default function ProductsAdd() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium">
-                        Precio
-                      </label>
+                      <label className="block text-sm font-medium">Price</label>
                       <Field
                         type="text"
                         id="price"
@@ -124,7 +145,7 @@ export default function ProductsAdd() {
                 </div>
                 <div className="mb-4">
                   <label className="block text-sm font-medium">
-                    Imagen de producto
+                    Product image
                   </label>
                   <Field
                     type="text"
@@ -141,7 +162,7 @@ export default function ProductsAdd() {
                 </div>
                 <div className="mb-4">
                   <label className="block text-sm font-medium">
-                    Descripción
+                    Description
                   </label>
                   <Field
                     as="textarea"
@@ -157,14 +178,17 @@ export default function ProductsAdd() {
                   />
                 </div>
                 <div className="modal-action">
-                  <label htmlFor="my_modal_6" className="btn">
-                    Cancelar
-                  </label>
-                  <button className="btn" type="submit">
-                    {productSelected
-                      ? "Editar producto"
-                      : "Crear nuevo producto"}
-                  </button>
+                  <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4 w-100 modal_buttons">
+                    <button className="btn" type="submit">
+                      {productSelected ? "Edit product" : "Create new product"}
+                    </button>
+                    <label
+                      onClick={closeModal}
+                      className="btn btn-active btn-link"
+                    >
+                      Cancel
+                    </label>
+                  </div>
                 </div>
               </Form>
             )}

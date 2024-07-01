@@ -1,20 +1,31 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ProductsAdd from "../(pages)/productAdd/page";
 import styles from "../styles/Navbar.module.scss";
-import ModalRegister from "./modal";
+import Image from "next/image";
 
 export default function Navbar({ typeSection }: any) {
   const [typeOptions, _setTypeOptions] = useState(typeSection);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const handleAction = (data: boolean) => setIsModalOpen(data);
+
   return (
     <>
       <div className={`${styles.navbar_structure} navbar bg-base-100`}>
         <div className="flex-1">
-          <a className={styles.btn_ghost}>Productos ML</a>
+          <Image
+            src="/images/logo_fake.png"
+            alt="logo"
+            width={500}
+            height={100}
+            layout="responsive"
+            className="navbar_logo"
+          />
         </div>
         <div className="flex-none">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <label className="btn" htmlFor="my_modal_6">
+              <label className="btn" onClick={openModal}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6"
@@ -37,9 +48,17 @@ export default function Navbar({ typeSection }: any) {
           </ul>
         </div>
       </div>
-      <ModalRegister>
-        <ProductsAdd></ProductsAdd>
-      </ModalRegister>
+      <div>
+        {isModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="modal modal-open">
+              <div className="modal-box">
+                <ProductsAdd onData={handleAction}></ProductsAdd>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </>
   );
 }
