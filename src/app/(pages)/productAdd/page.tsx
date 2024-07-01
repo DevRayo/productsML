@@ -66,11 +66,10 @@ export default function ProductsAdd({ onData }: any) {
               src="/images/logo_fake.png"
               alt="logo"
               sizes="100%"
-              className="logo"
+              className="logo img_load"
               fill
             />
           </div>
-
           <h2 className="text-2xl font-semibold text-center mb-6">
             {productSelected ? "Edit product" : "Add product"}
           </h2>
@@ -97,7 +96,7 @@ export default function ProductsAdd({ onData }: any) {
                     id="title"
                     name="title"
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500"
-                    placeholder="Ingresa nombre de producto"
+                    placeholder="Add name product"
                   />
                   <ErrorMessage
                     name="title"
@@ -144,7 +143,7 @@ export default function ProductsAdd({ onData }: any) {
                         id="price"
                         name="price"
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500"
-                        placeholder="Ingresa precio"
+                        placeholder="Add price"
                       />
                       <ErrorMessage
                         name="price"
@@ -163,7 +162,7 @@ export default function ProductsAdd({ onData }: any) {
                     id="image"
                     name="image"
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500"
-                    placeholder="Ingresa nombre de producto"
+                    placeholder="Add image"
                   />
                   <ErrorMessage
                     name="image"
